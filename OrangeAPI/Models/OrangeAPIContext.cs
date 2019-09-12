@@ -20,5 +20,7 @@ namespace OrangeAPI.Models
         }
 
         public System.Data.Entity.DbSet<OrangeAPI.Models.Category> Categories { get; set; }
+
+        public System.Data.Entity.DbSet<OrangeAPI.Models.Commerce> Commerces { get; set; }
     }
 }
