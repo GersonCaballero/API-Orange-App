@@ -70,7 +70,7 @@ namespace OrangeAPI.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(new { message = "Categoria actualizada correctamente", category.Name });
         }
 
         [HttpPost]

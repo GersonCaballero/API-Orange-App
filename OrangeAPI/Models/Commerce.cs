@@ -25,12 +25,14 @@ namespace OrangeAPI.Models
         [Required]
         public string Password { get; set; }
 
+        [Required]
+        public string RTN { get;  set; }
+
         public byte Image { get; set; }
 
-        [ForeignKey("Category")]
         public int IdCategory { get; set; }
 
-
+        [ForeignKey(nameof(IdCategory))]
         public virtual Category Category { get; set; }
     }
 }
