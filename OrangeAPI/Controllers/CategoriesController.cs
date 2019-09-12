@@ -86,7 +86,7 @@ namespace OrangeAPI.Controllers
             db.Categories.Add(category);
             db.SaveChanges();
 
-            return Ok("Categoria creada exitosamente");
+            return Ok(new { message = "Categoria creada exitosamente", category.Name });
         }
 
         [HttpDelete]
@@ -103,7 +103,7 @@ namespace OrangeAPI.Controllers
             db.Categories.Remove(category);
             db.SaveChanges();
 
-            return Ok(category);
+            return Ok(new { message = "Se elimino la categoria", category.Name });
         }
 
         protected override void Dispose(bool disposing)
