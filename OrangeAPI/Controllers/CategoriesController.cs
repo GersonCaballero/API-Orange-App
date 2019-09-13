@@ -40,7 +40,7 @@ namespace OrangeAPI.Controllers
         [HttpPut]
         [Route("api/orange/categories/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCategory(int id, Category category)
+        public IHttpActionResult UpdateCategory(int id, Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -70,13 +70,13 @@ namespace OrangeAPI.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(new { message = "Categoria actualizada correctamente", category.Name });
         }
 
         [HttpPost]
         [Route("api/orange/categories")]
         [ResponseType(typeof(Category))]
-        public IHttpActionResult PostCategory(Category category)
+        public IHttpActionResult CreateCategory(Category category)
         {
             if (!ModelState.IsValid)
             {

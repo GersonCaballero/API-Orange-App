@@ -7,17 +7,17 @@ using System.Web;
 
 namespace OrangeAPI.Models
 {
-    public class Commerce
+    public class UserAdmin
     {
         [Key]
-        public int IdCommerce { get; set; }
+        public int IdAdmin { get; set; }
 
         [Required]
-        [StringLength(40)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         [Required]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
         [Required]
         public string Email { get; set; }
@@ -25,14 +25,9 @@ namespace OrangeAPI.Models
         [Required]
         public string Password { get; set; }
 
-        [Required]
-        public string RTN { get;  set; }
+        public string TypeUser { get; set; }
 
-        public byte Image { get; set; }
-
-        public int IdCategory { get; set; }
-
-        [ForeignKey(nameof(IdCategory))]
-        public virtual Category Category { get; set; }
+        [ForeignKey(nameof(TypeUser))]
+        public virtual TypeOfUser TypeOfUser { get; set; }
     }
 }
