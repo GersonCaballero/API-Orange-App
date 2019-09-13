@@ -15,7 +15,7 @@ namespace OrangeAPI.Controllers
 
         [HttpGet]
         [Route("api/orange/shops")]
-        public IHttpActionResult getShops()
+        public IHttpActionResult GetShops()
         {
             var result = db.Commerces.Include("Category").ToList().Select(s => new
             {
@@ -33,7 +33,7 @@ namespace OrangeAPI.Controllers
 
         [HttpGet]
         [Route("api/orange/shops/{id}")]
-        public IHttpActionResult getShopId(int id)
+        public IHttpActionResult GetShopId(int id)
         {
             var result = db.Commerces.Where(i => i.IdCommerce == id).Select(s => new {
                 s.IdCommerce,
@@ -49,8 +49,8 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpPost]
-        [Route("api/orange/shops")]
-        public IHttpActionResult postShop(Commerce commerce)
+        [Route("api/orange/shop")]
+        public IHttpActionResult CreateShop(Commerce commerce)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace OrangeAPI.Controllers
 
         [HttpPut]
         [Route("api/orange/shops/{id}")]
-        public IHttpActionResult putShops(int id, Commerce commerce)
+        public IHttpActionResult UpdateShop(int id, Commerce commerce)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,9 @@ namespace OrangeAPI.Controllers
             return Ok(new { message = "Comercio actualizado correctamente", commerce.Name});
         }
 
-        public IHttpActionResult deleteShops(int id)
+        [HttpDelete]
+        [Route("api/orange/shop")]
+        public IHttpActionResult DeleteShops(int id)
         {
             Commerce commerce = db.Commerces.Find(id);
 

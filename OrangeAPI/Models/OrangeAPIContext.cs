@@ -22,5 +22,11 @@ namespace OrangeAPI.Models
         public System.Data.Entity.DbSet<OrangeAPI.Models.Category> Categories { get; set; }
 
         public System.Data.Entity.DbSet<OrangeAPI.Models.Commerce> Commerces { get; set; }
+
+        public System.Data.Entity.DbSet<OrangeAPI.Models.TypeOfUser> TypeOfUsers { get; set; }
+
+        public System.Data.Entity.DbSet<OrangeAPI.Models.UserAdmin> UserAdmins { get; set; }
+
+        public System.Data.Entity.DbSet<OrangeAPI.Models.EndUser> EndUsers { get; set; }
     }
 }
