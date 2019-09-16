@@ -31,5 +31,6 @@ namespace OrangeAPI.Models
 
         public DbSet<Biker> Bikers { get; set; }
 
+        public DbSet<Product> Products { get; set; }
     }
 }

@@ -165,7 +165,7 @@
     <Compile Include="Controllers\BikersController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MeniController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -175,8 +175,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Commerce.cs" />
     <Compile Include="Models\EndUser.cs" />
-    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\OrangeAPIContext.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\TypeOfUser.cs" />
     <Compile Include="Models\UserAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
