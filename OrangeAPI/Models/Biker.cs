@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -25,5 +26,9 @@ namespace OrangeAPI.Models
 
         [Required]
         public string Age { get; set; }
+
+        [ForeignKey(nameof(IdUserType))]
+        public TypeOfUser typeOfUser { get; set; }
+        public int IdUserType { get; set; }
     }
 }
