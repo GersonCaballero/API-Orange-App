@@ -100,6 +100,13 @@ namespace OrangeAPI.Controllers
                 return NotFound();
             }
 
+            var shops = db.Commerces.Where(s => s.IdCategory == id);
+
+            if (shops != null)
+            {
+                return BadRequest("Esta categoria tiene comercios asociados");
+            }
+
             db.Categories.Remove(category);
             db.SaveChanges();
 

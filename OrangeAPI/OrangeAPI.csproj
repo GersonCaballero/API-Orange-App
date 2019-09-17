@@ -164,6 +164,7 @@
     <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\BikersController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\EndUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
