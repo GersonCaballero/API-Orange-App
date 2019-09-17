@@ -83,3 +83,4 @@ C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.csproj.
 C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.csproj.CopyComplete
 C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.dll
 C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.pdb
+C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.csprojAssemblyReference.cache
