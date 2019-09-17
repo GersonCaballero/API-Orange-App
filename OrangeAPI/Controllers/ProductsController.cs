@@ -14,7 +14,7 @@ namespace OrangeAPI.Controllers
         private OrangeAPIContext db = new OrangeAPIContext();
 
         [HttpPost]
-        [Route("api/orange/menu/create")]
+        [Route("api/orange/product/create")]
         public IHttpActionResult CreateMenu(Product product)
         {
             var prod = db.Products.FirstOrDefault(p => p.Name == product.Name);
@@ -38,7 +38,7 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpPut]
-        [Route("api/orange/menu/update")]
+        [Route("api/orange/product/update")]
         public IHttpActionResult UpdateMenu([FromUri]int Productid, Product product)
         {
             if (!ModelState.IsValid)
@@ -100,4 +100,5 @@ namespace OrangeAPI.Controllers
             base.Dispose(disposing);
         }
     }
+}
 }
