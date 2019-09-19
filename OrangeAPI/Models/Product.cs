@@ -11,14 +11,16 @@ namespace OrangeAPI.Models
     {
         [Key]
         public int IdProduct { get; set; }
-
-        public int IdCommerce { get; set; }
-
-        [ForeignKey("IdCommerce")]
+        
         public string Name { get; set; }
         public string Description { get; set; }
         public byte Image { get; set; }
         public double Precio { get; set; }
         public int Quantity { get; set; }
+
+        [ForeignKey(nameof(IdCommerce))]
+        public virtual Commerce Commerce { get; set; }
+        public int IdCommerce { get; set; }
+
     }
 }

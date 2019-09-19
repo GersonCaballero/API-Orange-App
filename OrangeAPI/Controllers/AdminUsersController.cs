@@ -21,7 +21,7 @@ namespace OrangeAPI.Controllers
             var result = db.UserAdmins.ToList().Select(s => new {
                 s.IdAdmin,
                 s.Name,
-                s.TypeOfUser.Type,
+                s.IdUserType,
                 s.Phone,
                 s.Email,
                 s.Password
@@ -36,7 +36,7 @@ namespace OrangeAPI.Controllers
             var result = db.UserAdmins.Where(a => a.IdAdmin == id).Select(s => new {
                 s.IdAdmin,
                 s.Name,
-                s.TypeOfUser.Type,
+                s.IdUserType,
                 s.Phone,
                 s.Email,
                 s.Password

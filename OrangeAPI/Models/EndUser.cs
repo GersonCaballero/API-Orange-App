@@ -28,9 +28,8 @@ namespace OrangeAPI.Models
         [Required]
         public string Password { get; set; }
 
-        public string TypeUser { get; set; }
-
-        [ForeignKey(nameof(TypeUser))]
+        [ForeignKey(nameof(IdUserType))]
         public TypeOfUser typeOfUser { get; set; }
+        public int IdUserType { get; set; }
     }
 }
