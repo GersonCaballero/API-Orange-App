@@ -171,3 +171,5 @@ C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.dll
 C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.pdb
 C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.Migrations.FirstMigration.resources
 C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.csproj.GenerateResource.cache
+C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.Migrations.DataBaseInit.resources
+C:\Users\tabor\source\repos\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.csproj.GenerateResource.cache

@@ -171,9 +171,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909170527247_FirstMigration.cs" />
-    <Compile Include="Migrations\201909170527247_FirstMigration.Designer.cs">
-      <DependentUpon>201909170527247_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201909170542238_DataBaseInit.cs" />
+    <Compile Include="Migrations\201909170542238_DataBaseInit.Designer.cs">
+      <DependentUpon>201909170542238_DataBaseInit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Biker.cs" />
@@ -270,8 +270,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909170527247_FirstMigration.resx">
-      <DependentUpon>201909170527247_FirstMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909170542238_DataBaseInit.resx">
+      <DependentUpon>201909170542238_DataBaseInit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
