@@ -1,6 +1,7 @@
 ﻿using OrangeAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -71,6 +72,8 @@ namespace OrangeAPI.Controllers
             {
                 return BadRequest();
             }
+
+            db.Entry(userAdmin).State = EntityState.Modified;
 
             try
             {

@@ -1,6 +1,7 @@
 ﻿using OrangeAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -77,6 +78,8 @@ namespace OrangeAPI.Controllers
                 return BadRequest();
             }
 
+            db.Entry(commerce).State = EntityState.Modified;
+
             try
             {
                 db.SaveChanges();
@@ -104,6 +107,13 @@ namespace OrangeAPI.Controllers
             if(commerce == null)
             {
                 return NotFound();
+            }
+
+            var products = db.Products.Where(s => s.IdCommerce == id);
+
+            if(products != null)
+            {
+                return BadRequest("Este comercio tiene productos asociados");
             }
 
             db.Commerces.Remove(commerce);
