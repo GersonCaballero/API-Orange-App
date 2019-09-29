@@ -7,19 +7,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace OrangeAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("*", "*", "*")]
     public class BikersController : ApiController
     {
         private OrangeAPIContext db = new OrangeAPIContext();
 
         [HttpPost]
-        [Route("api/orange/biker/breate")]
+        [Route("api/orange/biker/create")]
         public IHttpActionResult CreateBiker(Biker biker)
         {
-            var bike = db.Bikers.FirstOrDefault(x => x.Name == biker.Name);
+            var bike = db.Bikers.FirstOrDefault(x => x.Name == biker.Name || x.Email == biker.Email);
 
             if (!ModelState.IsValid)
             {
@@ -28,7 +31,7 @@ namespace OrangeAPI.Controllers
 
             if (bike != null)
             {
-                return Ok(new { message = "Ya exite un motorista con este nombre."});
+                return Ok(new { message = "Ya exite un motorista con este nombre o correo." });
             }
 
             if (bike.Name == "" || bike.Email == "" || bike.Telephone == "" || bike.Password == "" || bike.Age == "")
@@ -60,14 +63,14 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/orange/biker/biker")]
+        [Route("api/orange/biker")]
         public IQueryable<Biker> Bikers()
         {
             return db.Bikers;
         }
 
         [HttpGet]
-        [Route("api/orange/biker/biker")]
+        [Route("api/orange/biker")]
         public IHttpActionResult BikerId([FromUri]int MotoristaId)
         {
             var biker = db.Bikers.Find(MotoristaId);

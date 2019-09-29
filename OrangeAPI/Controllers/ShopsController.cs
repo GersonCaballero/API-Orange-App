@@ -15,7 +15,7 @@ namespace OrangeAPI.Controllers
         private OrangeAPIContext db = new OrangeAPIContext();
 
         [HttpGet]
-        [Route("api/orange/shops")]
+        [Route("api/orange/shop")]
         public IHttpActionResult GetShops()
         {
             var result = db.Commerces.Include("Category").ToList().Select(s => new
@@ -29,12 +29,13 @@ namespace OrangeAPI.Controllers
                 s.Phone,
                 s.Category.IdCategory
             });
+
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("api/orange/shops/{id}")]
-        public IHttpActionResult GetShopId(int id)
+        [Route("api/orange/shop")]
+        public IHttpActionResult GetShopId([FromUri]int id)
         {
             var result = db.Commerces.Where(i => i.IdCommerce == id).Select(s => new {
                 s.IdCommerce,
@@ -46,17 +47,23 @@ namespace OrangeAPI.Controllers
                 s.Phone,
                 s.Category.IdCategory
             });
+
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("api/orange/shop")]
+        [Route("api/orange/shop/create")]
         public IHttpActionResult CreateShop(Commerce commerce)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             };
+
+            if (commerce.Name == "" || commerce.Phone == "" || commerce.RTN == "" || commerce.Password == "" || commerce.Email == "")
+            {
+                return Ok(new { message = "Todos los campos deben estar llenos." });
+            }
 
             db.Commerces.Add(commerce);
             db.SaveChanges();
@@ -65,8 +72,8 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpPut]
-        [Route("api/orange/shops/{id}")]
-        public IHttpActionResult UpdateShop(int id, Commerce commerce)
+        [Route("api/orange/shop/update")]
+        public IHttpActionResult UpdateShop([FromUri]int id, Commerce commerce)
         {
             if (!ModelState.IsValid)
             {
@@ -76,6 +83,11 @@ namespace OrangeAPI.Controllers
             if(id != commerce.IdCommerce)
             {
                 return BadRequest();
+            }
+
+            if (commerce.Name == "" || commerce.Phone == "" || commerce.RTN == "" || commerce.Password == "" || commerce.Email == "")
+            {
+                return Ok(new { message = "Todos los campos deben estar llenos." });
             }
 
             db.Entry(commerce).State = EntityState.Modified;
@@ -99,8 +111,8 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("api/orange/shop")]
-        public IHttpActionResult DeleteShops(int id)
+        [Route("api/orange/shop/delete")]
+        public IHttpActionResult DeleteShops([FromUri]int id)
         {
             Commerce commerce = db.Commerces.Find(id);
 

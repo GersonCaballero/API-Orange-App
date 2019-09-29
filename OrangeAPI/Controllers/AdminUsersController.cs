@@ -7,9 +7,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace OrangeAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("*", "*", "*")]
     public class AdminUsersController : ApiController
     {
         private OrangeAPIContext db = new OrangeAPIContext();
@@ -30,8 +33,8 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/orange/adminUsersId/{id}")]
-        public IHttpActionResult GetAdminUserId(int id)
+        [Route("api/orange/adminUsers")]
+        public IHttpActionResult GetAdminUserId([FromUri]int id)
         {
             var result = db.UserAdmins.Where(a => a.IdAdmin == id).Select(s => new {
                 s.IdAdmin,
@@ -41,17 +44,35 @@ namespace OrangeAPI.Controllers
                 s.Email,
                 s.Password
             });
+
+            if (result == null)
+            {
+                return Ok(new { message = "No existe este usuario."});
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("api/orange/adminUser")]
+        [Route("api/orange/adminUser/create")]
         public IHttpActionResult CreateAdmin(UserAdmin userAdmin)
-        {
+        {           
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             };
+
+            var admin = db.UserAdmins.FirstOrDefault(x => x.Name == userAdmin.Name || x.Email == userAdmin.Email);
+
+            if (admin != null)
+            {
+                return Ok(new { message = "Ya exite un Administrador con este nombre o correo." });
+            }
+
+            if (userAdmin.Email == "" || userAdmin.Name == "" || userAdmin.Password == "" || userAdmin.Phone == "" || userAdmin.IdUserType.ToString() == "")
+            {
+                return Ok(new { message = "Todos los campos deben estar llenos." });
+            }
 
             db.UserAdmins.Add(userAdmin);
             db.SaveChanges();
@@ -60,8 +81,8 @@ namespace OrangeAPI.Controllers
         }
         
         [HttpPut]
-        [Route("api/orange/adminUser")]
-        public IHttpActionResult UpdateUserAdmin(int id, UserAdmin userAdmin)
+        [Route("api/orange/adminUser/update")]
+        public IHttpActionResult UpdateUserAdmin([FromUri]int id, UserAdmin userAdmin)
         {
             if (!ModelState.IsValid)
             {
@@ -70,7 +91,12 @@ namespace OrangeAPI.Controllers
 
             if (id != userAdmin.IdAdmin)
             {
-                return BadRequest();
+                return Ok(new { message = "Este usuario no existe." });
+            }
+
+            if (userAdmin.Email == "" || userAdmin.Name == "" || userAdmin.Password == "" || userAdmin.Phone == "" || userAdmin.IdUserType.ToString() == "")
+            {
+                return Ok(new { message = "Todos los campos deben estar llenos." });
             }
 
             db.Entry(userAdmin).State = EntityState.Modified;
@@ -90,12 +116,12 @@ namespace OrangeAPI.Controllers
                     throw;
                 }
             }
-            return Ok(new { message = "Usuario actualizado correctamente", userAdmin.Name});
+            return Ok(new { message = "Usuario actualizado correctamente"});
         }
 
         [HttpDelete]
-        [Route("api/orange/adminUser/{id}")]
-        public IHttpActionResult DeleteAdminUser(int id)
+        [Route("api/orange/adminUser/delete")]
+        public IHttpActionResult DeleteAdminUser([FromUri]int id)
         {
             UserAdmin userAdmin = db.UserAdmins.Find(id);
 
@@ -107,7 +133,7 @@ namespace OrangeAPI.Controllers
             db.UserAdmins.Remove(userAdmin);
             db.SaveChanges();
 
-            return Ok(new { message = "Se elimino el comercio", userAdmin.Name });
+            return Ok(new { message = "Se elimino el comercio."});
         }
 
         private bool AdminUserExists(int id)
@@ -115,5 +141,13 @@ namespace OrangeAPI.Controllers
             return db.UserAdmins.Count(e => e.IdAdmin == id) > 0;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

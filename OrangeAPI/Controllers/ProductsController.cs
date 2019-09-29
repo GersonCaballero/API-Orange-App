@@ -15,7 +15,7 @@ namespace OrangeAPI.Controllers
 
         [HttpPost]
         [Route("api/orange/product/create")]
-        public IHttpActionResult CreateMenu(Product product)
+        public IHttpActionResult CreateProduct(Product product)
         {
             var prod = db.Products.FirstOrDefault(p => p.Name == product.Name);
 
@@ -28,36 +28,34 @@ namespace OrangeAPI.Controllers
 
             if (product.Name == "") return Ok(new { message = "Debe de ingresar un nombre." });
 
-            if (prod != null)
-                return Ok(new { message = "Este producto ya existe" });
+            if (prod != null) return Ok(new { message = "Este producto ya existe" });
 
             db.Products.Add(product);
             db.SaveChanges();
 
-            return Ok(new { message = "Menú creado con exito." });
+            return Ok(new { message = "Producto creado con exito." });
         }
 
         [HttpPut]
         [Route("api/orange/product/update")]
-        public IHttpActionResult UpdateMenu([FromUri]int Productid, Product product)
+        public IHttpActionResult UpdateProduct([FromUri]int Productid, Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            if (Productid != product.IdProduct)
-                return Ok(new { message = "Producto no existe." });
+            if (Productid != product.IdProduct) return Ok(new { message = "Producto no existe." });
 
             db.Entry(product).State = EntityState.Modified;
 
             db.SaveChanges();
 
-            return Ok(new { message = "Menú editado correctamente." });
+            return Ok(new { message = "Producto editado correctamente." });
         }
 
         [HttpGet]
-        [Route("api/orange/product/product")]
+        [Route("api/orange/producto")]
         public IQueryable<Product> Product()
         {
             return db.Products;
@@ -65,7 +63,7 @@ namespace OrangeAPI.Controllers
 
 
         [HttpGet]
-        [Route("api/orange/product/product")]
+        [Route("api/orange/producto")]
         public IHttpActionResult ProductId([FromUri]int productId)
         {
             var product = db.Products.Find(productId);
@@ -82,8 +80,7 @@ namespace OrangeAPI.Controllers
         {
             var product = db.Products.Find(productId);
 
-            if (product == null)
-                return Ok(new { message = "Producto no exite." });
+            if (product == null) return Ok(new { message = "Producto no exite." });
 
             db.Products.Remove(product);
             db.SaveChanges();

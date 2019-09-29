@@ -24,23 +24,24 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/orange/categories/{id}")]
+        [Route("api/orange/categories")]
         [ResponseType(typeof(Category))]
-        public IHttpActionResult GetCategory(int id)
+        public IHttpActionResult GetCategory([FromUri]int id)
         {
             Category category = db.Categories.Find(id);
+
             if (category == null)
             {
-                return NotFound();
+                return Ok(new { message = "Este usuario no existe."});
             }
 
             return Ok(category);
         }
 
         [HttpPut]
-        [Route("api/orange/categories/{id}")]
+        [Route("api/orange/categories/update")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateCategory(int id, Category category)
+        public IHttpActionResult UpdateCategory([FromUri]int id, Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +50,12 @@ namespace OrangeAPI.Controllers
 
             if (id != category.IdCategory)
             {
-                return BadRequest();
+                return Ok(new { message = "Este usuario no existe." });
+            }
+
+            if(category.Name == "")
+            {
+                return Ok(new { message = "Es necesario asignarle un nombre." });
             }
 
             db.Entry(category).State = EntityState.Modified;
@@ -70,11 +76,11 @@ namespace OrangeAPI.Controllers
                 }
             }
 
-            return Ok(new { message = "Categoria actualizada correctamente", category.Name });
+            return Ok(new { message = "Categoria actualizada correctamente."});
         }
 
         [HttpPost]
-        [Route("api/orange/categories")]
+        [Route("api/orange/categories/create")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult CreateCategory(Category category)
         {
@@ -83,34 +89,45 @@ namespace OrangeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (category.Name == "")
+            {
+                return Ok(new { message = "Es necesario asignarle un nombre." });
+            }
+
             db.Categories.Add(category);
             db.SaveChanges();
 
-            return Ok(new { message = "Categoria creada exitosamente", category.Name });
+            return Ok(new { message = "Categoria creada exitosamente."});
         }
 
         [HttpDelete]
-        [Route("api/orange/categories/{id}")]
+        [Route("api/orange/categories/delete")]
         [ResponseType(typeof(Category))]
-        public IHttpActionResult DeleteCategory(int id)
+        public IHttpActionResult DeleteCategory([FromUri]int id)
         {
             Category category = db.Categories.Find(id);
+
             if (category == null)
             {
-                return NotFound();
+                return Ok(new { message = "Este usuario no existe." });
             }
 
             var shops = db.Commerces.Where(s => s.IdCategory == id);
 
             if (shops != null)
             {
-                return BadRequest("Esta categoria tiene comercios asociados");
+                return Ok(new { message = "Esta categoria tiene comercios asociados." });
             }
 
             db.Categories.Remove(category);
             db.SaveChanges();
 
-            return Ok(new { message = "Se elimino la categoria", category.Name });
+            return Ok(new { message = "Se elimino la categoria."});
+        }
+
+        private bool CategoryExists(int id)
+        {
+            return db.Categories.Count(e => e.IdCategory == id) > 0;
         }
 
         protected override void Dispose(bool disposing)
@@ -120,11 +137,6 @@ namespace OrangeAPI.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool CategoryExists(int id)
-        {
-            return db.Categories.Count(e => e.IdCategory == id) > 0;
         }
     }
 }
