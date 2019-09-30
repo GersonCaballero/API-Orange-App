@@ -66,12 +66,12 @@ namespace OrangeAPI.Controllers
 
             if (admin != null)
             {
-                return Ok(new { message = "Ya exite un Administrador con este nombre o correo." });
+                return BadRequest("Ya existe un Administrador con este nombre o correo.");
             }
 
             if (userAdmin.Email == "" || userAdmin.Name == "" || userAdmin.Password == "" || userAdmin.Phone == "" || userAdmin.IdUserType.ToString() == "")
             {
-                return Ok(new { message = "Todos los campos deben estar llenos." });
+                return BadRequest("Todos los campos deben estar llenos.");
             }
 
             db.UserAdmins.Add(userAdmin);
@@ -91,12 +91,12 @@ namespace OrangeAPI.Controllers
 
             if (id != userAdmin.IdAdmin)
             {
-                return Ok(new { message = "Este usuario no existe." });
+                return BadRequest( "Este usuario no existe.");
             }
 
             if (userAdmin.Email == "" || userAdmin.Name == "" || userAdmin.Password == "" || userAdmin.Phone == "" || userAdmin.IdUserType.ToString() == "")
             {
-                return Ok(new { message = "Todos los campos deben estar llenos." });
+                return BadRequest("Todos los campos deben estar llenos.");
             }
 
             db.Entry(userAdmin).State = EntityState.Modified;
@@ -133,7 +133,7 @@ namespace OrangeAPI.Controllers
             db.UserAdmins.Remove(userAdmin);
             db.SaveChanges();
 
-            return Ok(new { message = "Se elimino el comercio."});
+            return Ok(new { message = "Se elimino el usuario administrador."});
         }
 
         private bool AdminUserExists(int id)

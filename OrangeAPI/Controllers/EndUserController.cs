@@ -33,7 +33,7 @@ namespace OrangeAPI.Controllers
 
             if (result == null)
             {
-                return Ok(new { message = "Usuario no existe." });
+                return BadRequest("Usuario no existe.");
             }
 
             return Ok(result);
@@ -50,7 +50,7 @@ namespace OrangeAPI.Controllers
 
             if (endUser.Name == "" || endUser.Address == "" || endUser.Email == "" || endUser.Phone == "" || endUser.Password == "" || endUser.typeOfUser.ToString() == "")
             {
-                return Ok(new { message = "No pueden haber campos vacios."});
+                return BadRequest( "No pueden haber campos vacios.");
             }
 
             db.EndUsers.Add(endUser);
@@ -70,12 +70,12 @@ namespace OrangeAPI.Controllers
 
             if (id != endUser.IdEndUser)
             {
-                return Ok(new { message = "Usuario no existe." });
+                return BadRequest("Usuario no existe.");
             }
 
             if (endUser.Name == "" || endUser.Address == "" || endUser.Email == "" || endUser.Phone == "" || endUser.Password == "" || endUser.typeOfUser.ToString() == "")
             {
-                return Ok(new { message = "No pueden haber campos vacios." });
+                return BadRequest("No pueden haber campos vacios.");
             }
 
             db.Entry(endUser).State = EntityState.Modified;
@@ -88,7 +88,7 @@ namespace OrangeAPI.Controllers
             {
                 if (!EndUserExists(id))
                 {
-                    return Ok(new { message = "Usuario no existe." });
+                    return BadRequest("Usuario no existe.");
                 }
                 else
                 {
@@ -106,13 +106,13 @@ namespace OrangeAPI.Controllers
 
             if (endUser == null)
             {
-                return Ok(new { message = "Usuario no existe." });
+                return BadRequest("Usuario no existe.");
             }
 
             db.EndUsers.Remove(endUser);
             db.SaveChanges();
 
-            return Ok(new { message = "Se elimino el comercio."});
+            return Ok(new { message = "Se elimino el usuario."});
         }
 
         private bool EndUserExists(int id)

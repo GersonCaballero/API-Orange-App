@@ -7,9 +7,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace OrangeAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("*", "*", "*")]
     public class ShopsController : ApiController
     {
         private OrangeAPIContext db = new OrangeAPIContext();
@@ -62,7 +65,7 @@ namespace OrangeAPI.Controllers
 
             if (commerce.Name == "" || commerce.Phone == "" || commerce.RTN == "" || commerce.Password == "" || commerce.Email == "")
             {
-                return Ok(new { message = "Todos los campos deben estar llenos." });
+                return BadRequest("Todos los campos deben estar llenos.");
             }
 
             db.Commerces.Add(commerce);
@@ -82,12 +85,12 @@ namespace OrangeAPI.Controllers
 
             if(id != commerce.IdCommerce)
             {
-                return BadRequest();
+                return BadRequest("Usuario no existe.");
             }
 
             if (commerce.Name == "" || commerce.Phone == "" || commerce.RTN == "" || commerce.Password == "" || commerce.Email == "")
             {
-                return Ok(new { message = "Todos los campos deben estar llenos." });
+                return BadRequest("Todos los campos deben estar llenos.");
             }
 
             db.Entry(commerce).State = EntityState.Modified;

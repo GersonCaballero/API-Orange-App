@@ -31,14 +31,15 @@ namespace OrangeAPI.Controllers
 
             if (bike != null)
             {
-                return Ok(new { message = "Ya exite un motorista con este nombre o correo." });
+                return BadRequest("Ya exite un motorista con este nombre o correo.");
             }
 
             if (bike.Name == "" || bike.Email == "" || bike.Telephone == "" || bike.Password == "" || bike.Age == "")
-                return Ok(new { message = "Todos los campos deben de estar llenos." });
+                return BadRequest("Todos los campos deben de estar llenos.");
 
             db.Bikers.Add(biker);
             db.SaveChanges();
+
             return Ok(new { message = "Motorista creado exitosamente." });
         }
 
@@ -53,7 +54,7 @@ namespace OrangeAPI.Controllers
             }
 
             if(Bikerid != biker.IdBiker)
-                return Ok(new { message = "Motorista no exite." });
+                return BadRequest("Motorista no existe.");
 
             db.Entry(biker).State = EntityState.Modified;
 
@@ -76,7 +77,7 @@ namespace OrangeAPI.Controllers
             var biker = db.Bikers.Find(MotoristaId);
 
             if(biker == null)
-                return Ok(new { Message = "El motorista no existe."});
+                return BadRequest("El motorista no existe.");
 
             return Ok(biker);
         }
@@ -89,7 +90,7 @@ namespace OrangeAPI.Controllers
 
             if (biker == null)
             {
-                return Ok(new { Message = "El motorista no existe." });
+                return BadRequest("El motorista no existe.");
             }
 
             db.Bikers.Remove(biker);

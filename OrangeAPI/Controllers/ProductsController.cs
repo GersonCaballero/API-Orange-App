@@ -6,9 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace OrangeAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("*", "*", "*")]
     public class ProductsController : ApiController
     {
         private OrangeAPIContext db = new OrangeAPIContext();
@@ -24,11 +27,11 @@ namespace OrangeAPI.Controllers
                 return BadRequest();
             }
 
-            if (product.Description == "") return Ok(new { message = "Debe de ingresar una descripción." });
+            if (product.Description == "") return BadRequest("Debe de ingresar una descripción.");
 
-            if (product.Name == "") return Ok(new { message = "Debe de ingresar un nombre." });
+            if (product.Name == "") return BadRequest("Debe de ingresar un nombre.");
 
-            if (prod != null) return Ok(new { message = "Este producto ya existe" });
+            if (prod != null) return BadRequest("Este producto ya existe");
 
             db.Products.Add(product);
             db.SaveChanges();
@@ -45,7 +48,7 @@ namespace OrangeAPI.Controllers
                 return BadRequest();
             }
 
-            if (Productid != product.IdProduct) return Ok(new { message = "Producto no existe." });
+            if (Productid != product.IdProduct) return BadRequest("Producto no existe.");
 
             db.Entry(product).State = EntityState.Modified;
 
@@ -69,7 +72,7 @@ namespace OrangeAPI.Controllers
             var product = db.Products.Find(productId);
 
             if (product == null)
-                return Ok(new { message = "Producto no exite." });
+                return BadRequest("Producto no exite.");
 
             return Ok(product);
         }
@@ -80,7 +83,7 @@ namespace OrangeAPI.Controllers
         {
             var product = db.Products.Find(productId);
 
-            if (product == null) return Ok(new { message = "Producto no exite." });
+            if (product == null) return BadRequest("Producto no exite.");
 
             db.Products.Remove(product);
             db.SaveChanges();

@@ -17,6 +17,8 @@ namespace OrangeAPI
 
             config.MessageHandlers.Add(new TokenValidationHandler());
 
+            config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

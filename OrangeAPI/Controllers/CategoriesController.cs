@@ -7,11 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using OrangeAPI.Models;
 
 namespace OrangeAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("*", "*", "*")]
     public class CategoriesController : ApiController
     {
         private OrangeAPIContext db = new OrangeAPIContext();
@@ -32,7 +35,7 @@ namespace OrangeAPI.Controllers
 
             if (category == null)
             {
-                return Ok(new { message = "Este usuario no existe."});
+                return BadRequest("Este usuario no existe.");
             }
 
             return Ok(category);
@@ -50,12 +53,12 @@ namespace OrangeAPI.Controllers
 
             if (id != category.IdCategory)
             {
-                return Ok(new { message = "Este usuario no existe." });
+                return BadRequest("Este usuario no existe.");
             }
 
             if(category.Name == "")
             {
-                return Ok(new { message = "Es necesario asignarle un nombre." });
+                return BadRequest("Es necesario asignarle un nombre.");
             }
 
             db.Entry(category).State = EntityState.Modified;
@@ -91,7 +94,7 @@ namespace OrangeAPI.Controllers
 
             if (category.Name == "")
             {
-                return Ok(new { message = "Es necesario asignarle un nombre." });
+                return BadRequest("Es necesario asignarle un nombre.");
             }
 
             db.Categories.Add(category);
@@ -109,14 +112,14 @@ namespace OrangeAPI.Controllers
 
             if (category == null)
             {
-                return Ok(new { message = "Este usuario no existe." });
+                return BadRequest("Este usuario no existe.");
             }
 
             var shops = db.Commerces.Where(s => s.IdCategory == id);
 
             if (shops != null)
             {
-                return Ok(new { message = "Esta categoria tiene comercios asociados." });
+                return BadRequest("Esta categoria tiene comercios asociados.");
             }
 
             db.Categories.Remove(category);
