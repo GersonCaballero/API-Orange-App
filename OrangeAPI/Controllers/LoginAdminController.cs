@@ -47,7 +47,7 @@ namespace WebApiSegura.Controllers
             }
             else
             {
-                return Ok(new { message = "Usuario o contrasena incorrectos." });
+                return BadRequest("Usuario o contrasena incorrectos.");
             }
         }
     }
