@@ -58,15 +58,31 @@ namespace OrangeAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/orange/producto")]
-        public IQueryable<Product> Product()
+        [Route("api/orange/product")]
+        public IEnumerable<Object> Product()
         {
-            return db.Products;
+            var result = db.Products
+                .Include("Commerce")
+                .Select(s => new
+                {
+                    s.IdProduct,
+                    s.Name,
+                    s.Description,
+                    s.Image,
+                    s.Precio,
+                    s.Quantity,
+                    Commerce = s.Commerce
+                }).ToList();
+
+
+            return result.ToList();
+
+            //return db.Products;
         }
 
 
         [HttpGet]
-        [Route("api/orange/producto")]
+        [Route("api/orange/product")]
         public IHttpActionResult ProductId([FromUri]int productId)
         {
             var product = db.Products.Find(productId);
