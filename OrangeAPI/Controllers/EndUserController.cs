@@ -21,7 +21,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/endUsers")]
         public IHttpActionResult GetEndUser()
         {
-            var result = db.EndUsers.ToList();
+            var result = db.EndUsers.Where(x => x.State == true).ToList();
             return Ok(result);
         }
 
@@ -29,7 +29,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/endUser")]
         public IHttpActionResult GetEndUserId([FromUri]int id)
         {
-            var result = db.EndUsers.Find();
+            var result = db.EndUsers.FirstOrDefault(x => x.IdEndUser == id && x.State == true);
 
             if (result == null)
             {
@@ -52,6 +52,8 @@ namespace OrangeAPI.Controllers
             {
                 return BadRequest( "No pueden haber campos vacios.");
             }
+
+            endUser.State = true;
 
             db.EndUsers.Add(endUser);
             db.SaveChanges();
@@ -102,14 +104,16 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/endUser/delete")]
         public IHttpActionResult DeleteShops([FromUri]int id)
         {
-            EndUser endUser = db.EndUsers.Find(id);
+            EndUser endUser = db.EndUsers.FirstOrDefault(x => x.IdEndUser == id && x.State == true);
 
             if (endUser == null)
             {
                 return BadRequest("Usuario no existe.");
             }
 
-            db.EndUsers.Remove(endUser);
+            endUser.State = false;
+
+            db.Entry(endUser).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new { message = "Se elimino el usuario."});
@@ -117,7 +121,7 @@ namespace OrangeAPI.Controllers
 
         private bool EndUserExists(int id)
         {
-            return db.Commerces.Count(e => e.IdCommerce == id) > 0;
+            return db.Commerces.Count(e => e.IdCommerce == id && e.State == true) > 0;
         }
     }
 }

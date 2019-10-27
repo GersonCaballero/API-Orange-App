@@ -30,6 +30,8 @@ namespace OrangeAPI.Models
 
         public byte Image { get; set; }
 
+        public bool State { get; set; }
+
         [ForeignKey(nameof(IdCategory))]
         public virtual Category Category { get; set; }
         public int IdCategory { get; set; }

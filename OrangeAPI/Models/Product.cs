@@ -17,6 +17,7 @@ namespace OrangeAPI.Models
         public byte Image { get; set; }
         public double Precio { get; set; }
         public int Quantity { get; set; }
+        public bool State { get; set; }
 
         [ForeignKey(nameof(IdCommerce))]
         public virtual Commerce Commerce { get; set; }

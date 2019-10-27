@@ -186,3 +186,4 @@ C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\bin\System.Web.Http.Cor
 C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.csprojAssemblyReference.cache
 C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.Migrations.DataBaseInit.resources
 C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.Migrations.Updatedatabasefinal.resources
+C:\Users\gerso\Documents\GitHub\API-Orange-App\OrangeAPI\obj\Debug\OrangeAPI.Migrations.Actualizandoestadosentablas.resources

@@ -33,6 +33,8 @@ namespace OrangeAPI.Controllers
 
             if (prod != null) return BadRequest("Este producto ya existe");
 
+            product.State = true;
+
             db.Products.Add(product);
             db.SaveChanges();
 
@@ -61,7 +63,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/product")]
         public IEnumerable<Object> Product()
         {
-            var result = db.Products
+            var result = db.Products.Where(x => x.State == true)
                 .Include("Commerce")
                 .Select(s => new
                 {
@@ -85,7 +87,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/product")]
         public IHttpActionResult ProductId([FromUri]int productId)
         {
-            var product = db.Products.Find(productId);
+            var product = db.Products.FirstOrDefault(x => x.IdProduct == productId && x.State == true);
 
             if (product == null)
                 return BadRequest("Producto no exite.");
@@ -99,9 +101,11 @@ namespace OrangeAPI.Controllers
         {
             var product = db.Products.Find(productId);
 
-            if (product == null) return BadRequest("Producto no exite.");
+            if (product == null) return BadRequest("Producto no existe.");
 
-            db.Products.Remove(product);
+            product.State = false;
+
+            db.Entry(product).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new { message = "Producto eliminado exitosamente." });

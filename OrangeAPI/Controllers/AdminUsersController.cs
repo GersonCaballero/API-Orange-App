@@ -21,14 +21,14 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/adminUsers")]
         public IHttpActionResult GetAdminUsers()
         {
-            var result = db.UserAdmins.ToList().Select(s => new {
+            var result = db.UserAdmins.Where(x => x.State == true).ToList().Select(s => new {
                 s.IdAdmin,
                 s.Name,
                 s.IdUserType,
                 s.Phone,
-                s.Email,
-                s.Password
+                s.Email
             });
+
             return Ok(result);
         }
 
@@ -36,18 +36,17 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/adminUsers")]
         public IHttpActionResult GetAdminUserId([FromUri]int id)
         {
-            var result = db.UserAdmins.Where(a => a.IdAdmin == id).Select(s => new {
+            var result = db.UserAdmins.FirstOrDefault(a => a.IdAdmin == id && a.State == true).Select(s => new {
                 s.IdAdmin,
                 s.Name,
                 s.IdUserType,
                 s.Phone,
-                s.Email,
-                s.Password
+                s.Email
             });
 
             if (result == null)
             {
-                return Ok(new { message = "No existe este usuario."});
+                return BadRequest("No existe este usuario.");
             }
 
             return Ok(result);
@@ -74,6 +73,8 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Todos los campos deben estar llenos.");
             }
 
+            userAdmin.State = true;
+
             db.UserAdmins.Add(userAdmin);
             db.SaveChanges();
 
@@ -82,7 +83,7 @@ namespace OrangeAPI.Controllers
         
         [HttpPut]
         [Route("api/orange/adminUser/update")]
-        public IHttpActionResult UpdateUserAdmin([FromUri]int id, UserAdmin userAdmin)
+        public IHttpActionResult UpdateUserAdmin([FromUri]int id, EditAdministrator userAdmin)
         {
             if (!ModelState.IsValid)
             {
@@ -94,28 +95,19 @@ namespace OrangeAPI.Controllers
                 return BadRequest( "Este usuario no existe.");
             }
 
-            if (userAdmin.Email == "" || userAdmin.Name == "" || userAdmin.Password == "" || userAdmin.Phone == "" || userAdmin.IdUserType.ToString() == "")
+            if (userAdmin.Email == "" || userAdmin.Name == ""  || userAdmin.Phone == "")
             {
                 return BadRequest("Todos los campos deben estar llenos.");
             }
 
-            db.Entry(userAdmin).State = EntityState.Modified;
+            var admin = db.UserAdmins.Find(id);
+            admin.Name = userAdmin.Name;
+            admin.Phone = userAdmin.Phone;
+            admin.Email = userAdmin.Email;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdminUserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            db.Entry(admin).State = EntityState.Modified;
+            db.SaveChanges();
+
             return Ok(new { message = "Usuario actualizado correctamente"});
         }
 
@@ -123,14 +115,16 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/adminUser/delete")]
         public IHttpActionResult DeleteAdminUser([FromUri]int id)
         {
-            UserAdmin userAdmin = db.UserAdmins.Find(id);
+            UserAdmin userAdmin = db.UserAdmins.FirstOrDefault(x => x.IdAdmin == id && x.State == true);
 
             if (userAdmin == null)
             {
-                return NotFound();
+                return BadRequest("Usuario no existe.");
             }
 
-            db.UserAdmins.Remove(userAdmin);
+            userAdmin.State = false;
+
+            db.Entry(userAdmin).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new { message = "Se elimino el usuario administrador."});
@@ -138,7 +132,7 @@ namespace OrangeAPI.Controllers
 
         private bool AdminUserExists(int id)
         {
-            return db.UserAdmins.Count(e => e.IdAdmin == id) > 0;
+            return db.UserAdmins.Count(e => e.IdAdmin == id && e.State == true) > 0;
         }
 
         protected override void Dispose(bool disposing)

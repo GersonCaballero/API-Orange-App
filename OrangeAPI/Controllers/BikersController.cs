@@ -22,7 +22,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/biker/create")]
         public IHttpActionResult CreateBiker(Biker biker)
         {
-            var bike = db.Bikers.FirstOrDefault(x => x.Name == biker.Name || x.Email == biker.Email);
+            var bike = db.Bikers.FirstOrDefault(x => x.Name == biker.Name && x.State == true || x.Email == biker.Email && x.State == true);
 
             if (!ModelState.IsValid)
             {
@@ -36,6 +36,8 @@ namespace OrangeAPI.Controllers
 
             if (bike.Name == "" || bike.Email == "" || bike.Telephone == "" || bike.Password == "" || bike.Age == "")
                 return BadRequest("Todos los campos deben de estar llenos.");
+
+            biker.State = true;
 
             db.Bikers.Add(biker);
             db.SaveChanges();
@@ -67,14 +69,14 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/biker")]
         public IQueryable<Biker> Bikers()
         {
-            return db.Bikers;
+            return db.Bikers.Where(x => x.State == true);
         }
 
         [HttpGet]
         [Route("api/orange/biker")]
         public IHttpActionResult BikerId([FromUri]int MotoristaId)
         {
-            var biker = db.Bikers.Find(MotoristaId);
+            var biker = db.Bikers.FirstOrDefault(x => x.IdBiker == MotoristaId && x.State == true);
 
             if(biker == null)
                 return BadRequest("El motorista no existe.");
@@ -86,14 +88,16 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/biker/delete")]
         public IHttpActionResult BikerDelete([FromUri]int MotoristaId)
         {
-            var biker = db.Bikers.Find(MotoristaId);
+            var biker = db.Bikers.FirstOrDefault(x => x.IdBiker == MotoristaId && x.State == true);
 
             if (biker == null)
             {
                 return BadRequest("El motorista no existe.");
             }
 
-            db.Bikers.Remove(biker);
+            biker.State = false;
+
+            db.Entry(biker).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new { message ="Motorista eliminado con exito."});

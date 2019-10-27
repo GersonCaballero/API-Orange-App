@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -201,10 +202,15 @@
     <Compile Include="Migrations\201909292150074_Update-database-final.Designer.cs">
       <DependentUpon>201909292150074_Update-database-final.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910271138209_Actualizandoestadosentablas.cs" />
+    <Compile Include="Migrations\201910271138209_Actualizandoestadosentablas.Designer.cs">
+      <DependentUpon>201910271138209_Actualizandoestadosentablas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Biker.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Commerce.cs" />
+    <Compile Include="Models\EditAdministrator.cs" />
     <Compile Include="Models\EndUser.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\OrangeAPIContext.cs" />
@@ -302,6 +308,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909292150074_Update-database-final.resx">
       <DependentUpon>201909292150074_Update-database-final.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910271138209_Actualizandoestadosentablas.resx">
+      <DependentUpon>201910271138209_Actualizandoestadosentablas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

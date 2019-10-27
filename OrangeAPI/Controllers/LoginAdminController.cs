@@ -38,7 +38,7 @@ namespace WebApiSegura.Controllers
         [Route("Admin")]
         public IHttpActionResult Authenticate(LoginRequest login)
         {
-            var user = db.UserAdmins.FirstOrDefault(x => x.Name == login.Username && x.Password == login.Password);
+            var user = db.UserAdmins.FirstOrDefault(x => x.Name == login.Username && x.Password == login.Password && x.State == true);
 
             if (user != null)
             {

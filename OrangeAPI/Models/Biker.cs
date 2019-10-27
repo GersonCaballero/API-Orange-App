@@ -26,6 +26,7 @@ namespace OrangeAPI.Models
 
         [Required]
         public string Age { get; set; }
+        public bool State { get; set; }
 
         [ForeignKey(nameof(IdUserType))]
         public TypeOfUser typeOfUser { get; set; }

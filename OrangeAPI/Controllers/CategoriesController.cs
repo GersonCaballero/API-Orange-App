@@ -23,7 +23,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/categories")]
         public IQueryable<Category> GetCategories()
         {
-            return db.Categories;
+            return db.Categories.Where(x => x.State == true);
         }
 
         [HttpGet]
@@ -31,7 +31,7 @@ namespace OrangeAPI.Controllers
         [ResponseType(typeof(Category))]
         public IHttpActionResult GetCategory([FromUri]int id)
         {
-            Category category = db.Categories.Find(id);
+            Category category = db.Categories.FirstOrDefault(x => x.IdCategory == id && x.State == true);
 
             if (category == null)
             {
@@ -97,6 +97,8 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Es necesario asignarle un nombre.");
             }
 
+            category.State = true;
+
             db.Categories.Add(category);
             db.SaveChanges();
 
@@ -122,7 +124,8 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Esta categoria tiene comercios asociados.");
             }
 
-            db.Categories.Remove(category);
+            category.State = false;
+            db.Entry(category).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new { message = "Se elimino la categoria."});

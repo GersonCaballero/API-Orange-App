@@ -21,7 +21,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/shop")]
         public IHttpActionResult GetShops()
         {
-            var result = db.Commerces.Include("Category").ToList().Select(s => new
+            var result = db.Commerces.Where(x => x.State == true).Include("Category").ToList().Select(s => new
             {
                 s.IdCommerce,
                 s.Name,
@@ -40,7 +40,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/shop")]
         public IHttpActionResult GetShopId([FromUri]int id)
         {
-            var result = db.Commerces.Where(i => i.IdCommerce == id).Select(s => new {
+            var result = db.Commerces.Where(i => i.IdCommerce == id && i.State == true).Select(s => new {
                 s.IdCommerce,
                 s.Name,
                 s.RTN,
@@ -67,6 +67,8 @@ namespace OrangeAPI.Controllers
             {
                 return BadRequest("Todos los campos deben estar llenos.");
             }
+
+            commerce.State = true;
 
             db.Commerces.Add(commerce);
             db.SaveChanges();
@@ -117,11 +119,11 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/shop/delete")]
         public IHttpActionResult DeleteShops([FromUri]int id)
         {
-            Commerce commerce = db.Commerces.Find(id);
+            Commerce commerce = db.Commerces.FirstOrDefault(x => x.IdCommerce == id && x.State == true);
 
             if(commerce == null)
             {
-                return NotFound();
+                return BadRequest("Usuario no existe.");
             }
 
             var products = db.Products.Where(s => s.IdCommerce == id);
@@ -131,7 +133,9 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Este comercio tiene productos asociados");
             }
 
-            db.Commerces.Remove(commerce);
+            commerce.State = false;
+
+            db.Entry(commerce).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new { message = "Se elimino el comercio", commerce.Name});
@@ -139,7 +143,7 @@ namespace OrangeAPI.Controllers
 
         private bool CommerceExists(int id)
         {
-            return db.Commerces.Count(e => e.IdCommerce == id) > 0;
+            return db.Commerces.Count(e => e.IdCommerce == id && e.State == true) > 0;
         }
     }
 }
