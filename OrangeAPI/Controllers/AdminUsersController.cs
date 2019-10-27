@@ -36,7 +36,7 @@ namespace OrangeAPI.Controllers
         [Route("api/orange/adminUsers")]
         public IHttpActionResult GetAdminUserId([FromUri]int id)
         {
-            var result = db.UserAdmins.FirstOrDefault(a => a.IdAdmin == id && a.State == true).Select(s => new {
+            var result = db.UserAdmins.Where(a => a.IdAdmin == id && a.State == true).Select(s => new {
                 s.IdAdmin,
                 s.Name,
                 s.IdUserType,
