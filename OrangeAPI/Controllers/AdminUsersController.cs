@@ -55,11 +55,7 @@ namespace OrangeAPI.Controllers
         [HttpPost]
         [Route("api/orange/adminUser/create")]
         public IHttpActionResult CreateAdmin(UserAdmin userAdmin)
-        {           
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            };
+        {          
 
             var admin = db.UserAdmins.FirstOrDefault(x => x.Name == userAdmin.Name || x.Email == userAdmin.Email);
 
@@ -68,7 +64,7 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Ya existe un Administrador con este nombre o correo.");
             }
 
-            if (userAdmin.Email == "" || userAdmin.Name == "" || userAdmin.Password == "" || userAdmin.Phone == "" || userAdmin.IdUserType.ToString() == "")
+            if (userAdmin.Email == null || userAdmin.Name == null || userAdmin.Password == null || userAdmin.Phone == null || userAdmin.IdUserType.ToString() == null)
             {
                 return BadRequest("Todos los campos deben estar llenos.");
             }
