@@ -18,7 +18,7 @@ namespace OrangeAPI.Controllers
         private OrangeAPIContext db = new OrangeAPIContext();
 
         [HttpGet]
-        [Route("api/orange/shop")]
+        [Route("api/orange/shops")]
         public IHttpActionResult GetShops()
         {
             var result = db.Commerces.Where(x => x.State == true).Include("Category").ToList().Select(s => new
@@ -73,7 +73,7 @@ namespace OrangeAPI.Controllers
             db.Commerces.Add(commerce);
             db.SaveChanges();
 
-            return Ok(new { message = "Comercio creado exitosamente", commerce.Name});
+            return Ok(new { message = "Comercio creado exitosamente", commerce.Name });
         }
 
         [HttpPut]
@@ -85,16 +85,16 @@ namespace OrangeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if(id != commerce.IdCommerce)
+            if (id != commerce.IdCommerce)
             {
-                return BadRequest("Usuario no existe.");
+                return BadRequest("Comercio no existe.");
             }
 
             if (commerce.Name == "" || commerce.Phone == "" || commerce.RTN == "" || commerce.Password == "" || commerce.Email == "")
             {
                 return BadRequest("Todos los campos deben estar llenos.");
             }
-
+            commerce.State = true;
             db.Entry(commerce).State = EntityState.Modified;
 
             try
@@ -112,7 +112,7 @@ namespace OrangeAPI.Controllers
                     throw;
                 }
             }
-            return Ok(new { message = "Comercio actualizado correctamente", commerce.Name});
+            return Ok(new { message = "Comercio actualizado correctamente", commerce.Name });
         }
 
         [HttpDelete]
@@ -121,14 +121,14 @@ namespace OrangeAPI.Controllers
         {
             Commerce commerce = db.Commerces.FirstOrDefault(x => x.IdCommerce == id && x.State == true);
 
-            if(commerce == null)
+            if (commerce == null)
             {
-                return BadRequest("Usuario no existe.");
+                return BadRequest("Comercio no existe.");
             }
 
-            var products = db.Products.Where(s => s.IdCommerce == id);
+            var products = db.Products.Where(s => s.IdCommerce == id).ToList();
 
-            if(products != null)
+            if (products.Count > 0)
             {
                 return BadRequest("Este comercio tiene productos asociados");
             }
@@ -138,7 +138,7 @@ namespace OrangeAPI.Controllers
             db.Entry(commerce).State = EntityState.Modified;
             db.SaveChanges();
 
-            return Ok(new { message = "Se elimino el comercio", commerce.Name});
+            return Ok(new { message = "Se elimino el comercio", commerce.Name });
         }
 
         private bool CommerceExists(int id)

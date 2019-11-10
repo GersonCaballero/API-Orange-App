@@ -3,7 +3,7 @@ namespace OrangeAPI.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Actualizandoestadosentablas : DbMigration
+    public partial class InitialDataBase : DbMigration
     {
         public override void Up()
         {

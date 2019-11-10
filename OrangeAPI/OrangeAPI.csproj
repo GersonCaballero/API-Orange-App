@@ -194,17 +194,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909170542238_DataBaseInit.cs" />
-    <Compile Include="Migrations\201909170542238_DataBaseInit.Designer.cs">
-      <DependentUpon>201909170542238_DataBaseInit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909292150074_Update-database-final.cs" />
-    <Compile Include="Migrations\201909292150074_Update-database-final.Designer.cs">
-      <DependentUpon>201909292150074_Update-database-final.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910271138209_Actualizandoestadosentablas.cs" />
-    <Compile Include="Migrations\201910271138209_Actualizandoestadosentablas.Designer.cs">
-      <DependentUpon>201910271138209_Actualizandoestadosentablas.cs</DependentUpon>
+    <Compile Include="Migrations\201910310459115_InitialDataBase.cs" />
+    <Compile Include="Migrations\201910310459115_InitialDataBase.Designer.cs">
+      <DependentUpon>201910310459115_InitialDataBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Biker.cs" />
@@ -303,14 +295,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909170542238_DataBaseInit.resx">
-      <DependentUpon>201909170542238_DataBaseInit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909292150074_Update-database-final.resx">
-      <DependentUpon>201909292150074_Update-database-final.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910271138209_Actualizandoestadosentablas.resx">
-      <DependentUpon>201910271138209_Actualizandoestadosentablas.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910310459115_InitialDataBase.resx">
+      <DependentUpon>201910310459115_InitialDataBase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

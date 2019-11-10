@@ -7,13 +7,13 @@ namespace OrangeAPI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Actualizandoestadosentablas : IMigrationMetadata
+    public sealed partial class InitialDataBase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Actualizandoestadosentablas));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDataBase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201910271138209_Actualizandoestadosentablas"; }
+            get { return "201910310459115_InitialDataBase"; }
         }
         
         string IMigrationMetadata.Source
