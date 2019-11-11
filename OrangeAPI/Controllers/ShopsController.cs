@@ -87,7 +87,7 @@ namespace OrangeAPI.Controllers
 
             if(id != commerce.IdCommerce)
             {
-                return BadRequest("Usuario no existe.");
+                return BadRequest("Comercio no existe.");
             }
 
             if (commerce.Name == "" || commerce.Phone == "" || commerce.RTN == "" || commerce.Password == "" || commerce.Email == "")
@@ -95,6 +95,7 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Todos los campos deben estar llenos.");
             }
 
+            commerce.State = true;
             db.Entry(commerce).State = EntityState.Modified;
 
             try
@@ -126,9 +127,9 @@ namespace OrangeAPI.Controllers
                 return BadRequest("Usuario no existe.");
             }
 
-            var products = db.Products.Where(s => s.IdCommerce == id);
+            var products = db.Products.Where(s => s.IdCommerce == id).ToList();
 
-            if(products != null)
+            if(products.Count > 0)
             {
                 return BadRequest("Este comercio tiene productos asociados");
             }
