@@ -86,10 +86,10 @@ namespace OrangeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != userAdmin.IdAdmin)
-            {
-                return BadRequest( "Este usuario no existe.");
-            }
+            //if (id != userAdmin.IdAdmin)
+            //{
+            //    return BadRequest( "Este usuario no existe.");
+            //}
 
             if (userAdmin.Email == "" || userAdmin.Name == ""  || userAdmin.Phone == "")
             {

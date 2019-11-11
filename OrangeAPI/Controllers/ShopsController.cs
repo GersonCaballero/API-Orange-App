@@ -18,7 +18,7 @@ namespace OrangeAPI.Controllers
         private OrangeAPIContext db = new OrangeAPIContext();
 
         [HttpGet]
-        [Route("api/orange/shop")]
+        [Route("api/orange/shops")]
         public IHttpActionResult GetShops()
         {
             var result = db.Commerces.Where(x => x.State == true).Include("Category").ToList().Select(s => new
