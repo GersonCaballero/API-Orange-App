@@ -32,22 +32,30 @@ namespace WebApiSegura.Controllers
         {
             var identity = Thread.CurrentPrincipal.Identity;
             return Ok($" IPrincipal-user: {identity.Name} - IsAuthenticated: {identity.IsAuthenticated}");
-        }
+        }        
 
         [HttpPost]
         [Route("Admin")]
         public IHttpActionResult Authenticate(LoginRequest login)
         {
-            var user = db.UserAdmins.FirstOrDefault(x => x.Name == login.Username && x.Password == login.Password && x.State == true);
-
-            if (user != null)
+            var user = db.UserAdmins.FirstOrDefault(x => x.Email == login.Email && x.Password == login.Password && x.State == true);
+            var userEmail = db.UserAdmins.FirstOrDefault(x => x.Email == login.Email && x.State == true);
+            var userPassword = db.UserAdmins.FirstOrDefault(x => x.Password == login.Password && x.State == true);
+            
+            if (userEmail == null || userPassword == null)
             {
-                var token = TokenGenerator.GenerateTokenJwt(login.Username);
-                return Ok(token);
+                return BadRequest("Usuario o contrasena incorrectos.");
+
+            }
+
+            if (user == null)
+            {
+                return BadRequest("El usuario no existe.");
             }
             else
             {
-                return BadRequest("Usuario o contrasena incorrectos.");
+                var token = TokenGenerator.GenerateTokenJwt(login.Email);
+                return Ok(token);
             }
         }
     }
