@@ -6,8 +6,12 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Threading;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Security;
 
 namespace OrangeAPI.Controllers
 {
